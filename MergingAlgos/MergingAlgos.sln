@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergingAlgos", "MergingAlgos\MergingAlgos.csproj", "{A72B5EC1-D206-4AFC-97DA-9175035453C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InversionCount", "InversionCount\InversionCount.csproj", "{A931FBB4-1A73-4C2C-9C96-72E0F21CE478}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A72B5EC1-D206-4AFC-97DA-9175035453C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A72B5EC1-D206-4AFC-97DA-9175035453C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A72B5EC1-D206-4AFC-97DA-9175035453C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A72B5EC1-D206-4AFC-97DA-9175035453C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A931FBB4-1A73-4C2C-9C96-72E0F21CE478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A931FBB4-1A73-4C2C-9C96-72E0F21CE478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A931FBB4-1A73-4C2C-9C96-72E0F21CE478}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A931FBB4-1A73-4C2C-9C96-72E0F21CE478}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
