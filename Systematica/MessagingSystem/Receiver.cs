@@ -13,7 +13,7 @@ namespace MessagingSystem
         public static event Action<Message> Received;
 
         private readonly object _locker = new object();
-        private Timer _timer;
+        private readonly Timer _timer;
         private int _msgCount;
 
         public static void Main(string[] args)
@@ -27,6 +27,7 @@ namespace MessagingSystem
 
         public Receiver()
         {
+            _msgCount = 0;
             _timer = new Timer() {Enabled = true, Interval = 1000};
             _timer.Elapsed += OnElapsed;
             _timer.Start();
@@ -49,11 +50,8 @@ namespace MessagingSystem
         private void SaveMsg(Message msg)
         {
             msg.ReceivedTimeStamp = DateTime.Now;
-            lock (_locker)
-            {
-                _msgCount++;
-            }
-           
+            Interlocked.Increment(ref _msgCount);
+
         }
 
         
