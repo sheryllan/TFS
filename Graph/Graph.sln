@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Graph\Main.csproj", "{B94BBA99-57A5-4775-B583-74253098BBB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph_", "Graph_\Graph_.csproj", "{86D2C2CD-BA19-4082-88A9-21F4FAA4EFEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{0E40E3E9-3DA4-4E43-AFDC-7414C41869B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B94BBA99-57A5-4775-B583-74253098BBB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94BBA99-57A5-4775-B583-74253098BBB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94BBA99-57A5-4775-B583-74253098BBB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94BBA99-57A5-4775-B583-74253098BBB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86D2C2CD-BA19-4082-88A9-21F4FAA4EFEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D2C2CD-BA19-4082-88A9-21F4FAA4EFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D2C2CD-BA19-4082-88A9-21F4FAA4EFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D2C2CD-BA19-4082-88A9-21F4FAA4EFEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E40E3E9-3DA4-4E43-AFDC-7414C41869B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E40E3E9-3DA4-4E43-AFDC-7414C41869B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E40E3E9-3DA4-4E43-AFDC-7414C41869B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E40E3E9-3DA4-4E43-AFDC-7414C41869B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

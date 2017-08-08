@@ -33,30 +33,30 @@ namespace LinkedList
         public bool IsPandlidrome<T>(LinkedList<T> list)
         {
             bool isEven;
+            bool isPandlidrome = true;
             var middle = FindMiddleNode(list, out isEven);
-            LinkedList<T>.Node<T> forward, backward;
+            if (middle == null) return false;
 
-            if (isEven)
-            {
-                forward = middle.next;
-                backward = middle;
-            }
-            else
-            {
-                forward = middle.next;
-                backward = middle.prev;
-            }
+            var backward = middle;
+            var forward = isEven ? middle.next : middle;
             
-            
-            while (forward.data.Equals(backward.data))
+            while (backward != null && forward != null) 
             {
-                forward = forward.next;
-                backward = backward.prev;
-
-                if(forward == null && backward == null)
-                    return true;
+                if (forward.data.Equals(backward.data))
+                    // The equality comparison should be provided by type T not LinkedList
+                    // A strongly typed equality check would be invoked if T implements IEquatable<T>
+                {
+                    forward = forward.next;
+                    backward = backward.prev;
+                }
+                else
+                {
+                    isPandlidrome = false;
+                    break;
+                }
+                
             }
-            return false;
+            return isPandlidrome;
 
         }
     

@@ -69,5 +69,21 @@ namespace Substring
 
             return -1;
         }
+
+
+        public bool AddOK(int x, int y)
+        {
+            int z = x + y;
+            return !(((x & y) < 0 && z >= 0) || ((x | y) > 0 && z <= 0));
+
+
+        }
+
+        public bool SubOK(int x, int y)
+        {
+            if (y == int.MinValue)
+                return x > 0;
+            return AddOK(x, -y);
+        }
     }
 }

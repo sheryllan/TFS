@@ -72,5 +72,22 @@ namespace Substring
             Assert.AreEqual(int.MinValue + 9, min1Plus9);
             Assert.AreEqual(int.MaxValue - 4, maxMinus4);
         }
+
+        [TestMethod]
+        public void AddOKTest()
+        {
+            int x1 = -(1 << 30) + 145;
+            int y1 = int.MinValue;
+            Assert.AreEqual(false, _numPair.AddOK(x1, y1));
+
+            int x2 = 5001;
+            int y2 = int.MaxValue;
+            Assert.AreEqual(false, _numPair.AddOK(x2, y2));
+
+            int x3 = 1;
+            int y3 = -3;
+            Assert.AreEqual(true, _numPair.AddOK(x3, y3));
+
+        }
     }
 }
