@@ -16,21 +16,32 @@ namespace MessagingSystem
         private readonly Timer _timer;
         private const int LIMIT = 500;
 
+        public static event Action<bool> Acknowledge;
+
         public Sender()
         {
-            _msgCount = 0;
             _timer = new Timer() {Enabled = true, Interval = 1000};
             _timer.Elapsed += ResetMsgCount;
-            _timer.Start();
+            Acknowledge += UpdateMsgCount;
+        }
+
+        private void UpdateMsgCount(bool isReceived)
+        {
+            if (isReceived)
+                Interlocked.Increment(ref _msgCount);
         }
 
         private void ResetMsgCount(object sender, ElapsedEventArgs e)
         {
             lock (_locker)
             {
-                //Console.WriteLine("On reset: {0}", _msgCount);
                 _msgCount = 0;
             }
+        }
+
+        public static void RaiseAcknowlege(bool isReceived)
+        {
+            Acknowledge?.Invoke(isReceived);
         }
 
         public bool canTransmit()
@@ -38,7 +49,6 @@ namespace MessagingSystem
             int count;
             lock (_locker)
             {
-                //Console.WriteLine("On check: {0}", _msgCount);
                 count = _msgCount;
             }
             return count < LIMIT;
@@ -58,6 +68,8 @@ namespace MessagingSystem
 
         public void Run()
         {
+            _msgCount = 0;
+            _timer.Start();
             while (true)
             {
                 while (!canTransmit())
@@ -66,9 +78,7 @@ namespace MessagingSystem
                 }
                 Message msg = generateMessage();
                 sendMessage(msg);
-                //Console.WriteLine("Message sent!!");
-                Interlocked.Increment(ref _msgCount);
-                Receiver.OnReceived(msg);
+                Receiver.RaiseReceived(msg);
             }
         }
     }
