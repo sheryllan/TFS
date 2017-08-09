@@ -9,39 +9,51 @@ using Timer = System.Timers.Timer;
 
 namespace MessagingSystem
 {
-    public class Sender
+    public class Sender : IDisposable
     {
         private int _msgCount;
         private readonly object _locker = new object();
         private readonly Timer _timer;
         private const int LIMIT = 500;
+        private bool _stop;
+
+        public static event Action<bool> Acknowledge;
 
         public Sender()
         {
-            _msgCount = 0;
             _timer = new Timer() {Enabled = true, Interval = 1000};
             _timer.Elapsed += ResetMsgCount;
-            _timer.Start();
+            Acknowledge += UpdateMsgCount;
+        }
+
+        private void UpdateMsgCount(bool isReceived)
+        {
+            if (isReceived)
+                Interlocked.Increment(ref _msgCount);
+
         }
 
         private void ResetMsgCount(object sender, ElapsedEventArgs e)
         {
             lock (_locker)
             {
-                //Console.WriteLine("On reset: {0}", _msgCount);
+                Console.WriteLine("Data received at {0}/s", _msgCount);
                 _msgCount = 0;
             }
         }
 
+        public static void OnAcknowledge(bool isReceived)
+        {
+            Acknowledge?.Invoke(isReceived);
+        }
+
         public bool canTransmit()
         {
-            int count;
             lock (_locker)
             {
-                //Console.WriteLine("On check: {0}", _msgCount);
-                count = _msgCount;
+                return _msgCount < LIMIT;
             }
-            return count < LIMIT;
+           
         }
 
         public Message generateMessage()
@@ -55,10 +67,12 @@ namespace MessagingSystem
 
         }
 
-
         public void Run()
         {
-            while (true)
+            _msgCount = 0;
+            _timer.Start();
+            _stop = false;
+            while (!_stop)
             {
                 while (!canTransmit())
                 {
@@ -66,10 +80,23 @@ namespace MessagingSystem
                 }
                 Message msg = generateMessage();
                 sendMessage(msg);
-                //Console.WriteLine("Message sent!!");
-                Interlocked.Increment(ref _msgCount);
                 Receiver.OnReceived(msg);
             }
+        }
+
+        public void Stop()
+        {
+            _stop = true;
+            _timer.Stop();
+            lock (_locker)
+            {
+                _msgCount = 0;
+            }
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
     }
 }
