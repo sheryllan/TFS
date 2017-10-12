@@ -25,7 +25,7 @@ namespace MessagingSystem
             new Thread(sender.Run).Start();
             while (true)
             {
-                Thread.Sleep(1500); // important!!longer enough period to have gathered timestamps of the last second
+                Thread.Sleep(1000); // important!!longer enough period to have gathered timestamps of the last second
                 Console.WriteLine("Data received at {0}/s", receiver.GetReceiveRate());
             }
             
@@ -59,7 +59,7 @@ namespace MessagingSystem
 
         public int GetReceiveRate()
         {
-            DateTime now = DateTime.Now;
+            DateTime currTime;
             Message olderMsg, currMsg;
             int old_i, curr_i;
             lock (_locker)
@@ -68,12 +68,15 @@ namespace MessagingSystem
                 old_i = _messages[_head] == null ? 0 : _head; 
                 currMsg = _messages[curr_i];
                 olderMsg = _messages[old_i];
+                currTime = DateTime.Now;
+
             }
 
             int count = curr_i > old_i ? curr_i - old_i + 1 : curr_i - old_i + BUFSIZE;
             DateTime oldTime = olderMsg.ReceivedTimeStamp;
-            DateTime currTime = currMsg.ReceivedTimeStamp - oldTime < TimeSpan.FromMilliseconds(500) 
-                ? now : currMsg.ReceivedTimeStamp;
+            //DateTime currTime = currMsg.ReceivedTimeStamp - oldTime < TimeSpan.FromMilliseconds(500) 
+            //    ? now : currMsg.ReceivedTimeStamp;
+            
             double interval = (currTime - oldTime).TotalSeconds;
 
             Console.WriteLine("curr_i: {0}, old_i: {1}", curr_i, old_i);
