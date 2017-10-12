@@ -15,6 +15,7 @@
     </Window.DataContext>
     <Window.Resources>
         <converters:PercentageConverter x:Key="pct" />
+        <converters:NegtiveToBoolConverter x:Key="negBool"></converters:NegtiveToBoolConverter>
         <converters:NegativeCoulorConverter x:Key="neg" TrueBrush="Red" FalseBrush="Black"/>
     </Window.Resources>
     <DockPanel DataContext="{Binding Path=FinancialData}"  LastChildFill="True">
@@ -23,26 +24,50 @@
                   DisplayMemberPath="Name"
                   SelectedItem="{Binding SelectedPricingSpec}"
                   Width="200"
-                  HorizontalAlignment="Left"></ComboBox>
+                  HorizontalAlignment="Left" />
+        <Label DockPanel.Dock="Top" 
+               Height="23">
+            <TextBlock Text="{Binding Path=TimeStamp, StringFormat={}{0:hh:mm:ss tt}}"/>
+        </Label>
         <DataGrid ItemsSource="{Binding Path=SelectedPricingSpec.ContractRows}" AutoGenerateColumns="False">
             <DataGrid.Resources>
                 <Style x:Key="doubleDataStyle" TargetType="{x:Type TextBlock}">
-                    <Setter Property="Text"
-                            Value="{Binding Converter={StaticResource pct}}" />
-                    <Setter Property="Foreground"
-                            Value="{Binding Converter={StaticResource neg}}" />
+                    <!--<Setter Property="Text"
+                            Value="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={StaticResource pct}}">
+                        
+                    </Setter>-->
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                           
+                                <Binding RelativeSource="{RelativeSource Self}" Path="Text" Converter="{StaticResource neg}"/>
+
+
+                        </Setter.Value>
+                    </Setter>
+
                 </Style>
-                
-                <Style x:Key="dblNumStyle" TargetType="{x:Type DataGridCell}">
+
+                <Style x:Key="dblNumStyle"
+                       
+                       TargetType="{x:Type DataGridCell}">
+                    
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <ContentPresenter.ContentTemplate>
+                                <ContentPresenter Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}">
+                                    
+                                    <ContentPresenter.Resources>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Foreground" Value="Red"></Setter>
+                                        </Style>
+                                    </ContentPresenter.Resources>
+                                    <!--<ContentPresenter.ContentTemplate>
+                                        
                                         <DataTemplate DataType="{x:Type sys:Double}">
-                                            <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.Text}"/>
+                                            <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.Text}" />
                                         </DataTemplate>
-                                    </ContentPresenter.ContentTemplate>
+                                    </ContentPresenter.ContentTemplate>-->
                                 </ContentPresenter>
                             </ControlTemplate>
                         </Setter.Value>
@@ -50,19 +75,35 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Expiration" Binding="{Binding Path=Expiration}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Expiration"
+                                    Binding="{Binding Path=Expiration}" />
                 <DataGridTextColumn Header="Volatility"
-                                    Binding="{Binding Path=Volatility, Converter={StaticResource pct}}"
-                                    Foreground="{Binding RelativeSource={RelativeSource Self}, Path=v.Volatility, Converter={StaticResource neg}}"
-                                    CellStyle="{StaticResource dblNumStyle}"/>
+                                    Binding="{Binding Path=Volatility, Converter={StaticResource pct}}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground"
+                                    Value="{Binding Path=Volatility, Converter={StaticResource neg}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="VolChange"
-                                    Binding="{Binding Path=VolChange, Converter={StaticResource pct}}"
-                                    Foreground="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.VolChange, Converter={StaticResource neg}}"
-                                    CellStyle="{StaticResource dblNumStyle}"/>
+                                    Binding="{Binding Path=VolChange, Converter={StaticResource pct}}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground"
+                                    Value="{Binding Path=VolChange, Converter={StaticResource neg}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="TikChange"
-                                    Binding="{Binding Path=TickChange}"
-                                    Foreground="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.TickChange, Converter={StaticResource neg}}"
-                                    CellStyle="{StaticResource dblNumStyle}"/>
+                                    Binding="{Binding Path=TickChange, Converter={StaticResource pct}}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground"
+                                    Value="{Binding Path=TickChange, Converter={StaticResource neg}}" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="ReferenceFuture" Binding="{Binding Path=ReferenceFuture}" />
             </DataGrid.Columns>
         </DataGrid>

@@ -43,7 +43,6 @@ namespace Liquid.ViewModels
         public FinancialDataViewModel(FinancialData model)
         {
             Model = model;
-            PricingSpecRows = new ObservableCollection<PricingSpecViewModel>();
         }
 
         public void UpdatePriceSpecRows()
@@ -53,19 +52,22 @@ namespace Liquid.ViewModels
                 PricingSpecRows = null;
                 return;
             }
-            foreach (var row in PricingSpecRows)
+            if(PricingSpecRows == null)
+                PricingSpecRows = new ObservableCollection<PricingSpecViewModel>();
+            else
             {
-                bool found = false;
-                foreach (var data in Model.PricingSpecRows)
+                foreach (var row in PricingSpecRows)
                 {
-                    found = row.HasSamePricingSpec(data);
-                    if (found)
+                    bool found = false;
+                    foreach (var data in Model.PricingSpecRows)
                     {
+                        found = row.HasSamePricingSpec(data);
+                        if (!found) continue;
                         row.Model = data;
                         break;
                     }
+                    if (!found) PricingSpecRows.Remove(row);
                 }
-                if (!found) PricingSpecRows.Remove(row);
             }
 
             var newRows = Model.PricingSpecRows.Where(x => !PricingSpecRows.Any(y => y.HasSamePricingSpec(x)));

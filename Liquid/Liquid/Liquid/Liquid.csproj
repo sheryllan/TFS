@@ -82,6 +82,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ValueConverters\NegativeCoulorConverter.cs" />
+    <Compile Include="ValueConverters\NegtiveToBoolConverter.cs" />
     <Compile Include="ValueConverters\PercentageConverter.cs" />
     <Compile Include="ValueConverters\ValueHelperExtension.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
