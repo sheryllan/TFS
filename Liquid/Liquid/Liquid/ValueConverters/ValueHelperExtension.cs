@@ -30,10 +30,5 @@ namespace Liquid.ValueConverters
                     return false;
             }
         }
-
-        public static bool IsTargetType(this object o, Type t)
-        {
-            return o?.GetType() == t ;
-        }
     }
 }

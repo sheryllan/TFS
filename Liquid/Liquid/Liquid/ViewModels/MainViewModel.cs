@@ -20,11 +20,10 @@ namespace Liquid.ViewModels
         {
             DataSource = new DataSource();
             FinancialData = new FinancialDataViewModel(null);
-            //DataSource.Subscribe(UpdateData);
-            DataSource.SubscribeWithWPFSynchronization(UpdateData, Application.Current.MainWindow);
+            DataSource.SubscribeWithWPFSynchronization(UpdateFinancialData, Application.Current.MainWindow);
         }
 
-        public void UpdateData(FinancialData data)
+        public void UpdateFinancialData(FinancialData data)
         {
             FinancialData.Model = data;
         }

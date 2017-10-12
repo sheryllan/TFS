@@ -18,7 +18,8 @@ namespace Liquid.ValueConverters
             {
                 var percent = 100 * System.Convert.ToDouble(value);
                 _decimals = parameter.IsNumericType() ? System.Convert.ToInt32(parameter) : 2;
-                return string.Format("{0}%", Math.Round(percent, System.Convert.ToInt32(_decimals)));
+                var form = string.Format("{{0:F{0}}}%", _decimals);
+                return string.Format(form, percent);
             }
             throw new ArgumentException("Invalid value type for PercentageConverter: value is not a number.");
             //return value;
