@@ -18,11 +18,12 @@
         <converters:NegativeCoulorConverter x:Key="neg" TrueBrush="Red" FalseBrush="Black"/>
     </Window.Resources>
     <DockPanel DataContext="{Binding Path=FinancialData}"  LastChildFill="True">
-        <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding Path=PricingSpecRows}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPricingSpec}"  Width="200" HorizontalAlignment="Left"></ComboBox>
-        <Label DockPanel.Dock="Top" Content="{Binding Path=TimeStamp}"></Label>
-        <TextBlock DockPanel.Dock="Top" 
-                   Text="{Binding Path=Td}"
-                   Foreground="{Binding Td, Converter={StaticResource neg}}"></TextBlock>
+        <ComboBox DockPanel.Dock="Top"
+                  ItemsSource="{Binding Path=PricingSpecRows}"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding SelectedPricingSpec}"
+                  Width="200"
+                  HorizontalAlignment="Left"></ComboBox>
         <DataGrid ItemsSource="{Binding Path=SelectedPricingSpec.ContractRows}" AutoGenerateColumns="False">
             <DataGrid.Resources>
                 <Style x:Key="doubleDataStyle" TargetType="{x:Type TextBlock}">
@@ -50,10 +51,19 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Expiration" Binding="{Binding Path=Expiration}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Volatility" Binding="{Binding Path=Volatility, Converter={StaticResource pct}}" CellStyle="{StaticResource dblNumStyle}"></DataGridTextColumn>
-                <DataGridTextColumn Header="VolChange" Binding="{Binding Path=VolChange}" CellStyle="{StaticResource dblNumStyle}"></DataGridTextColumn>
-                <DataGridTextColumn Header="TcikChange" Binding="{Binding Path=TickChange}" CellStyle="{StaticResource dblNumStyle}"></DataGridTextColumn>
-                <DataGridTextColumn Header="ReferenceFuture" Binding="{Binding Path=ReferenceFuture}" CellStyle="{StaticResource dblNumStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Volatility"
+                                    Binding="{Binding Path=Volatility, Converter={StaticResource pct}}"
+                                    Foreground="{Binding RelativeSource={RelativeSource Self}, Path=v.Volatility, Converter={StaticResource neg}}"
+                                    CellStyle="{StaticResource dblNumStyle}"/>
+                <DataGridTextColumn Header="VolChange"
+                                    Binding="{Binding Path=VolChange, Converter={StaticResource pct}}"
+                                    Foreground="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.VolChange, Converter={StaticResource neg}}"
+                                    CellStyle="{StaticResource dblNumStyle}"/>
+                <DataGridTextColumn Header="TikChange"
+                                    Binding="{Binding Path=TickChange}"
+                                    Foreground="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.TickChange, Converter={StaticResource neg}}"
+                                    CellStyle="{StaticResource dblNumStyle}"/>
+                <DataGridTextColumn Header="ReferenceFuture" Binding="{Binding Path=ReferenceFuture}" />
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

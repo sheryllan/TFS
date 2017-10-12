@@ -22,6 +22,7 @@ namespace Liquid.ViewModels
             set
             {
                 SetProperty(ref _model, value);
+                OnPropertyChanged(() => Name);
                 ContractRows = new ObservableCollection<ContractData>(_model.ContractRows);
             }
         }
@@ -39,7 +40,7 @@ namespace Liquid.ViewModels
             Model = model; 
         }
 
-        public bool IsPricingSpec(PricingSpecData data)
+        public bool HasSamePricingSpec(PricingSpecData data)
         {
             return data?.Name == Name;
         }
