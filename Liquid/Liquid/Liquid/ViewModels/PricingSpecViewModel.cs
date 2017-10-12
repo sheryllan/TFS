@@ -14,7 +14,7 @@ namespace Liquid.ViewModels
     {
         private PricingSpecData _model;
         private string _name;
-        private ObservableCollection<ContractDataViewModel> _contractRows;
+        private ObservableCollection<ContractData> _contractRows;
 
         public PricingSpecData Model
         {
@@ -22,19 +22,13 @@ namespace Liquid.ViewModels
             set
             {
                 SetProperty(ref _model, value);
-                if (_model == null) return;
-                Name = Model.Name;
-                ContractRows = new ObservableCollection<ContractDataViewModel>(Model.ContractRows.Select(x => new ContractDataViewModel(x)));
+                ContractRows = new ObservableCollection<ContractData>(_model.ContractRows);
             }
         }
 
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
+        public string Name { get { return Model?.Name; } }
 
-        public ObservableCollection<ContractDataViewModel> ContractRows
+        public ObservableCollection<ContractData> ContractRows
         {
             get { return _contractRows; }
             set { SetProperty(ref _contractRows, value); }
@@ -42,7 +36,13 @@ namespace Liquid.ViewModels
 
         public PricingSpecViewModel(PricingSpecData model)
         {
-            Model = model;
+            Model = model; 
         }
+
+        public bool IsPricingSpec(PricingSpecData data)
+        {
+            return data?.Name == Name;
+        }
+
     }
 }

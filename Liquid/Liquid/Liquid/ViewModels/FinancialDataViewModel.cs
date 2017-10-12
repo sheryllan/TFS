@@ -23,7 +23,7 @@ namespace Liquid.ViewModels
                 SetProperty(ref _model, value);
                 if(_model == null) return;
                 OnPropertyChanged(() => TimeStamp);
-                PricingSpecRows = new ObservableCollection<PricingSpecViewModel>(Model.PricingSpecRows.Select(x => new PricingSpecViewModel(x)));
+                PricingSpecRows = 
             }
         }
 
@@ -47,6 +47,24 @@ namespace Liquid.ViewModels
         {
             Model = model;
             Td = -0.128;
+        }
+
+        public void UpdatePriceSpecRows(IEnumerable<PricingSpecData> dataRows)
+        {
+            foreach (var row in PricingSpecRows)
+            {
+                bool found = false;
+                foreach (var data in dataRows)
+                {
+                    found = row.IsPricingSpec(data);
+                    if (found)
+                    {
+
+                        break;
+                    }
+                }
+                if(found)
+            }
         }
 
     }
