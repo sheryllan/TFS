@@ -16,18 +16,17 @@ namespace Liquid.ValueConverters
             if (value == null) return null;
             if (value.IsNumericType())
             {
+                if (System.Convert.ToDouble(value) > 1) return value;
                 var percent = 100 * System.Convert.ToDouble(value);
                 _decimals = parameter.IsNumericType() ? System.Convert.ToInt32(parameter) : 2;
                 var form = string.Format("{{0:F{0}}}%", _decimals);
                 return string.Format(form, percent);
             }
             throw new ArgumentException("Invalid value type for PercentageConverter: value is not a number.");
-            //return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //throw new NotImplementedException();
             if (value == null) return null;
             if (value is string)
             {
@@ -37,7 +36,6 @@ namespace Liquid.ValueConverters
 
             }
             throw new ArgumentException("Invalid value type for PercentageConverter: value is not a number.");
-            //return value;
         }
     }
 }

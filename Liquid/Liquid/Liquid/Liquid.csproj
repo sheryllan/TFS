@@ -84,6 +84,7 @@
     <Compile Include="ValueConverters\NegativeCoulorConverter.cs" />
     <Compile Include="ValueConverters\PercentageConverter.cs" />
     <Compile Include="ValueConverters\ValueHelperExtension.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PricingSpecViewModel.cs" />
     <Page Include="MainWindow.xaml">

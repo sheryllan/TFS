@@ -10,7 +10,7 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace Liquid.ViewModels
 {
-    public class PricingSpecViewModel : BindableBase
+    public class PricingSpecViewModel : BaseViewModel
     {
         private PricingSpecData _model;
         private string _name;
@@ -22,8 +22,7 @@ namespace Liquid.ViewModels
             set
             {
                 SetProperty(ref _model, value);
-                OnPropertyChanged(() => Name);
-                ContractRows = new ObservableCollection<ContractData>(_model.ContractRows);
+                Notify();
             }
         }
 
@@ -40,9 +39,15 @@ namespace Liquid.ViewModels
             Model = model; 
         }
 
-        public bool HasSamePricingSpec(PricingSpecData data)
+        public bool IsSamePricingSpec(PricingSpecData data)
         {
             return data?.Name == Name;
+        }
+
+        public override void Notify()
+        {
+            OnPropertyChanged(() => Name);
+            ContractRows = new ObservableCollection<ContractData>(_model.ContractRows);
         }
 
     }

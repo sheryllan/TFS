@@ -9,7 +9,7 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace Liquid.ViewModels
 {
-    public class FinancialDataViewModel : BindableBase
+    public class FinancialDataViewModel : BaseViewModel
     {
         private FinancialData _model;
         private ObservableCollection<PricingSpecViewModel> _pricingSpecRows;
@@ -21,8 +21,7 @@ namespace Liquid.ViewModels
             set
             {
                 SetProperty(ref _model, value);
-                OnPropertyChanged(() => TimeStamp);
-                UpdatePriceSpecRows();
+                Notify();
             }
         }
 
@@ -43,6 +42,7 @@ namespace Liquid.ViewModels
         public FinancialDataViewModel(FinancialData model)
         {
             Model = model;
+            ObserverActions = new List<Action>{UpdatePriceSpecRows};
         }
 
         public void UpdatePriceSpecRows()
@@ -52,27 +52,23 @@ namespace Liquid.ViewModels
                 PricingSpecRows = null;
                 return;
             }
-            if(PricingSpecRows == null)
-                PricingSpecRows = new ObservableCollection<PricingSpecViewModel>();
-            else
-            {
-                foreach (var row in PricingSpecRows)
-                {
-                    bool found = false;
-                    foreach (var data in Model.PricingSpecRows)
-                    {
-                        found = row.HasSamePricingSpec(data);
-                        if (!found) continue;
-                        row.Model = data;
-                        break;
-                    }
-                    if (!found) PricingSpecRows.Remove(row);
-                }
-            }
 
-            var newRows = Model.PricingSpecRows.Where(x => !PricingSpecRows.Any(y => y.HasSamePricingSpec(x)));
+            foreach (var row in PricingSpecRows = PricingSpecRows?? new ObservableCollection<PricingSpecViewModel>())
+            {
+                var foundRow = Model.PricingSpecRows.FirstOrDefault(x => row.IsSamePricingSpec(x));
+                row.Model = foundRow;
+            }
+            var rows = PricingSpecRows.Where(x => x.Model != null);
+            var newRows = Model.PricingSpecRows.Where(x => !rows.Any(y => y.IsSamePricingSpec(x)));
+            PricingSpecRows = new ObservableCollection<PricingSpecViewModel>(rows);
             PricingSpecRows.AddRange(newRows.Select(x => new PricingSpecViewModel(x)));
 
+        }
+
+        public override void Notify()
+        {
+            OnPropertyChanged(() => TimeStamp);
+            Update();
         }
 
     }
