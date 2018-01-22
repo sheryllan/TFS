@@ -14,6 +14,7 @@ namespace Liquid.ViewModels
         private FinancialData _model;
         private ObservableCollection<PricingSpecViewModel> _pricingSpecRows;
         private PricingSpecViewModel _selectedPricingSpec;
+        private List<Action> _modelActions;
 
         public FinancialData Model
         {
@@ -21,7 +22,7 @@ namespace Liquid.ViewModels
             set
             {
                 SetProperty(ref _model, value);
-                Notify();
+                Notify(_modelActions);
             }
         }
 
@@ -42,7 +43,11 @@ namespace Liquid.ViewModels
         public FinancialDataViewModel(FinancialData model)
         {
             Model = model;
-            ObserverActions = new List<Action>{UpdatePriceSpecRows};
+            _modelActions = new List<Action>
+            {
+                () => OnPropertyChanged(() => TimeStamp),
+                UpdatePriceSpecRows
+            };
         }
 
         public void UpdatePriceSpecRows()
@@ -63,12 +68,6 @@ namespace Liquid.ViewModels
             PricingSpecRows = new ObservableCollection<PricingSpecViewModel>(rows);
             PricingSpecRows.AddRange(newRows.Select(x => new PricingSpecViewModel(x)));
 
-        }
-
-        public override void Notify()
-        {
-            OnPropertyChanged(() => TimeStamp);
-            Update();
         }
 
     }

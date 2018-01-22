@@ -13,8 +13,9 @@ namespace Liquid.ViewModels
     public class PricingSpecViewModel : BaseViewModel
     {
         private PricingSpecData _model;
-        private string _name;
         private ObservableCollection<ContractData> _contractRows;
+        private List<Action> _modelActions;
+
 
         public PricingSpecData Model
         {
@@ -22,7 +23,7 @@ namespace Liquid.ViewModels
             set
             {
                 SetProperty(ref _model, value);
-                Notify();
+                Notify(_modelActions);
             }
         }
 
@@ -37,17 +38,16 @@ namespace Liquid.ViewModels
         public PricingSpecViewModel(PricingSpecData model)
         {
             Model = model; 
+            _modelActions = new List<Action>
+            {
+                () => OnPropertyChanged(() => Name),
+                () => ContractRows = new ObservableCollection<ContractData>(Model.ContractRows)
+            };
         }
 
         public bool IsSamePricingSpec(PricingSpecData data)
         {
             return data?.Name == Name;
-        }
-
-        public override void Notify()
-        {
-            OnPropertyChanged(() => Name);
-            ContractRows = new ObservableCollection<ContractData>(_model.ContractRows);
         }
 
     }

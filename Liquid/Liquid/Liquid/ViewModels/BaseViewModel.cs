@@ -9,17 +9,15 @@ namespace Liquid.ViewModels
 {
     public abstract class BaseViewModel : BindableBase
     {
-        public List<Action> ObserverActions { get; set; }
-        
-        public virtual void Notify()
+        public virtual void Notify(IEnumerable<Action> actions)
         {
-            Update();
+            Update(actions);
         }
 
-        public void Update()
+        public void Update(IEnumerable<Action> actions)
         {
-            if(ObserverActions == null) return;
-            foreach (var o in ObserverActions)
+            if(actions == null) return;
+            foreach (var o in actions)
             {
                 o.Invoke();
             }
